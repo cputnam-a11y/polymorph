@@ -57,7 +57,7 @@ public record CPacketBlockEntityListener(boolean add) implements CustomPacketPay
           RecipeHolder<?> recipeHolder = recipeData.getSelectedRecipe();
 
           if (recipeHolder != null) {
-            resourceLocation = recipeHolder.id();
+            resourceLocation = recipeHolder.id().location();
           }
           api.getNetwork().sendRecipesListS2C(player,
               recipeData.isEmpty() ? new TreeSet<>() : recipeData.getRecipesList(),

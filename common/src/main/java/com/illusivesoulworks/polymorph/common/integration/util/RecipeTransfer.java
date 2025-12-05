@@ -18,7 +18,7 @@ public class RecipeTransfer {
   }
 
   public static void selectRecipe(RecipeHolder<?> recipe) {
-    selectRecipe(recipe.id());
+    selectRecipe(recipe.id().location());
   }
 
   public static void selectRecipe(ResourceLocation resourceLocation) {

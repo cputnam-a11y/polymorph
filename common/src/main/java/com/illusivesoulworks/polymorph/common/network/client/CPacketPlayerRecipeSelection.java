@@ -21,13 +21,17 @@ import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.illusivesoulworks.polymorph.api.common.capability.IPlayerRecipeData;
 import com.illusivesoulworks.polymorph.common.integration.PolymorphIntegrations;
 import javax.annotation.Nonnull;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.item.crafting.Recipe;
 
 public record CPacketPlayerRecipeSelection(ResourceLocation recipe) implements CustomPacketPayload {
 
@@ -41,7 +45,9 @@ public record CPacketPlayerRecipeSelection(ResourceLocation recipe) implements C
 
   public static void handle(CPacketPlayerRecipeSelection packet, ServerPlayer player) {
     AbstractContainerMenu container = player.containerMenu;
-    player.level().getRecipeManager().byKey(packet.recipe).ifPresent(recipe -> {
+    ServerLevel serverLevel = (ServerLevel) player.level();
+    ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, packet.recipe);
+    serverLevel.recipeAccess().byKey(recipeKey).ifPresent(recipe -> {
       PolymorphApi api = PolymorphApi.getInstance();
       IPlayerRecipeData recipeData = api.getPlayerRecipeData(player);
 

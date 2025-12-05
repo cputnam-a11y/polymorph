@@ -24,14 +24,15 @@ public class IngredientWrapper {
 
     if (otherIngredient == null) {
       return false;
-    } else if (otherIngredient == Ingredient.EMPTY) {
-      return this.ingredient == Ingredient.EMPTY;
+    } else if (otherIngredient.isEmpty()) {
+      return this.ingredient.isEmpty();
     } else {
-      ItemStack[] stacks = this.ingredient.getItems();
+      // Check if any item in this ingredient matches any item in the other ingredient
+      for (ItemStack otherStack : pIngredient.getIngredient().items()
+          .map(holder -> new ItemStack(holder.value())).toList()) {
 
-      for (ItemStack otherStack : pIngredient.getIngredient().getItems()) {
-
-        for (ItemStack stack : stacks) {
+        for (ItemStack stack : this.ingredient.items()
+            .map(holder -> new ItemStack(holder.value())).toList()) {
 
           if (ItemStack.matches(stack, otherStack)) {
             return true;

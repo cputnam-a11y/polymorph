@@ -30,6 +30,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,7 +47,7 @@ public class MixinCraftingMenu {
       method = "slotChangedCraftingGrid")
   private static <I extends RecipeInput, T extends Recipe<I>> Optional<RecipeHolder<T>> polymorph$getRecipe(
       RecipeManager recipeManager, RecipeType<T> type, I craftingInput, Level world,
-      RecipeHolder<CraftingRecipe> recipeHolder, AbstractContainerMenu menu, Level unused,
+      RecipeHolder<CraftingRecipe> recipeHolder, AbstractContainerMenu menu, ServerLevel unused,
       Player player, CraftingContainer craftingContainer, ResultContainer resultContainer,
       RecipeHolder<CraftingRecipe> unused1) {
     return PolymorphApi.getInstance().getRecipeManager()

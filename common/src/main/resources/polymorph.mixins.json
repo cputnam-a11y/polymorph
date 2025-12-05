@@ -7,18 +7,13 @@
     "AccessorAbstractFurnaceBlockEntity",
     "AccessorCrafterMenu",
     "AccessorCraftingMenu",
-    "AccessorInventoryMenu",
-    "AccessorSmithingTransformRecipe",
-    "AccessorSmithingTrimRecipe",
     "MixinCrafterMenu",
     "MixinCraftingMenu",
     "MixinLevelChunk",
     "MixinPolymorphApi",
     "MixinPolymorphWidgets",
-    "MixinRecipeCache",
     "MixinRecipeManager",
-    "MixinServerLevel",
-    "MixinSmithingMenu"
+    "MixinServerLevel"
   ],
   "injectors": {
     "defaultRequire": 1,
@@ -26,6 +21,5 @@
   },
   "refmap": "${mod_id}.refmap.json",
   "client": [
-    "AccessorSmithingScreen"
   ]
 }

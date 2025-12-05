@@ -13,11 +13,11 @@ minecraft {
 
 dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
-    compileOnly group: 'org.objectweb.asm', name: 'com.springsource.org.objectweb.asm.tree', version: '3.2.0'
+    compileOnly group: 'org.ow2.asm', name: 'asm-tree', version: '9.7'
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
     compileOnly "dev.emi:emi-xplat-mojmap:${emi_version}"
-    compileOnly "mezz.jei:jei-1.21-common:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.10-common:${jei_version}"
 }
 
 configurations {

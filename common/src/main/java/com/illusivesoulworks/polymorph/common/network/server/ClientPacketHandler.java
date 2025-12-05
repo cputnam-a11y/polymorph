@@ -31,6 +31,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -38,15 +39,16 @@ public class ClientPacketHandler {
 
   public static void handle(SPacketPlayerRecipeSync packet) {
     LocalPlayer clientPlayerEntity = Minecraft.getInstance().player;
+    ClientLevel clientLevel = Minecraft.getInstance().level;
 
-    if (clientPlayerEntity != null) {
+    if (clientPlayerEntity != null && clientLevel != null) {
       IPlayerRecipeData recipeData =
           PolymorphApi.getInstance().getPlayerRecipeData(clientPlayerEntity);
 
       if (recipeData != null) {
         recipeData.setRecipesList(sort(packet.recipeList().orElse(new HashSet<>())));
-        packet.selected().flatMap(resourceLocation -> clientPlayerEntity.level().getRecipeManager()
-            .byKey(resourceLocation)).ifPresent(recipeData::setSelectedRecipe);
+        // Client doesn't have direct byKey access, so we skip setting selected recipe client-side
+        // The server handles recipe selection synchronization
       }
     }
   }

@@ -18,7 +18,6 @@
 package com.illusivesoulworks.polymorph.api.client.widgets.children;
 
 import com.illusivesoulworks.polymorph.api.common.base.IRecipePair;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;
@@ -26,6 +25,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +48,6 @@ public class OutputWidget extends AbstractWidget {
   public void renderWidget(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY,
                            float partialTicks) {
     Minecraft minecraft = Minecraft.getInstance();
-    PoseStack poseStack = guiGraphics.pose();
     WidgetSprites sprite = this.highlighted ? this.sprites.getSecond() : this.sprites.getFirst();
     ResourceLocation texture = sprite.enabled();
 
@@ -56,14 +55,11 @@ public class OutputWidget extends AbstractWidget {
         this.getY() + 25 > mouseY && this.getY() <= mouseY) {
       texture = sprite.enabledFocused();
     }
-    guiGraphics.blitSprite(texture, this.getX(), this.getY(), 600, this.width, this.height);
+    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.width, this.height);
     int k = 4;
-    poseStack.pushPose();
-    poseStack.translate(0, 0, 700);
     guiGraphics.renderItem(this.getOutput(), this.getX() + k, this.getY() + k);
     guiGraphics.renderItemDecorations(minecraft.font, this.getOutput(), this.getX() + k,
         this.getY() + k);
-    poseStack.popPose();
   }
 
   public ItemStack getOutput() {
@@ -88,8 +84,4 @@ public class OutputWidget extends AbstractWidget {
 
   }
 
-  @Override
-  protected boolean isValidClickButton(int button) {
-    return button == 0 || button == 1;
-  }
 }

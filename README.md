@@ -1,8 +1,9 @@
-# Polymorph
-[![](http://cf.way2muchnoise.eu/versions/polymorph.svg)](https://www.curseforge.com/minecraft/mc-mods/polymorph)
-[![](http://cf.way2muchnoise.eu/short_polymorph_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/polymorph/files)
+# polymorph but it's for fabric only but also for minecraft 1.21.10
+
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg?&style=flat-square)](https://www.gnu.org/licenses/lgpl-3.0)
-[![ko-fi](https://img.shields.io/badge/Support%20Me-Ko--fi-%23FF5E5B?style=flat-square)](https://ko-fi.com/C0C1NL4O)
+
+> [!NOTE]
+> **This is an unofficial fork of [Polymorph](https://github.com/illusivesoulworks/polymorph) by [IllusiveSoulworks](https://github.com/illusivesoulworks), updated for Minecraft 1.21.10.**
 
 Polymorph is a mod that solves recipe conflicts by letting players choose between all potential
 outputs shared by the same ingredients.
@@ -14,7 +15,24 @@ or other tools to ensure that each recipe is unique.
 Polymorph offers an alternative solution, allowing all possible crafting and smelting recipes to
 co-exist regardless of conflicts.
 
-![](https://i.postimg.cc/prDcRzJ8/logo-final.png)
+## Fork Information
+
+This fork updates Polymorph for **Minecraft 1.21.10** (Fabric only).
+
+### Changes from original:
+
+- Updated to Minecraft 1.21.10 API
+- Fixed smithing recipe handling for new recipe structure
+- Removed NeoForge/Forge support (Fabric only)
+- Various API compatibility fixes
+
+### Original Project
+
+- **Author:** [IllusiveSoulworks](https://github.com/illusivesoulworks)
+- **Repository:** [github.com/illusivesoulworks/polymorph](https://github.com/illusivesoulworks/polymorph)
+- **CurseForge:** [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph)
+
+If you appreciate this mod, please support the original developer via [Ko-fi](https://ko-fi.com/C0C1NL4O).
 
 ## Features
 
@@ -41,23 +59,6 @@ selection will be saved to the block itself and persist across world loading and
 To assist identifying potential conflicts, there's a command `/polymorph conflicts` that will try to
 identify recipes that conflict with each other and outputs a list of them to your logs folder.
 
-## Downloads
-
-**CurseForge**
-- [Polymorph for Forge](https://www.curseforge.com/minecraft/mc-mods/polymorph/files)
-- [Polymorph for Fabric](https://www.curseforge.com/minecraft/mc-mods/polymorph-fabric/files)
-
-## Support
-
-Please report all bugs, issues, and feature requests to the
-[issue tracker](https://github.com/illusivesoulworks/polymorph/issues).
-
-For non-technical support and questions, join the developer's [Discord](https://discord.gg/JWgrdwt).
-
 ## License
 
-All source code and assets are licensed under LGPL 3.0.
-
-## Donations
-
-Donations to the developer can be sent through [Ko-fi](https://ko-fi.com/C0C1NL4O).
+All source code and assets are licensed under [LGPL 3.0](https://www.gnu.org/licenses/lgpl-3.0), the same license as the original project.

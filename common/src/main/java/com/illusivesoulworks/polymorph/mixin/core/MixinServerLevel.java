@@ -1,14 +1,12 @@
 package com.illusivesoulworks.polymorph.mixin.core;
 
 import com.illusivesoulworks.polymorph.api.common.base.IRecipeContext;
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,9 +26,8 @@ public abstract class MixinServerLevel extends Level {
                              ResourceKey<Level> $$1,
                              RegistryAccess $$2,
                              Holder<DimensionType> $$3,
-                             Supplier<ProfilerFiller> $$4,
-                             boolean $$5, boolean $$6, long $$7, int $$8) {
-    super($$0, $$1, $$2, $$3, $$4, $$5, $$6, $$7, $$8);
+                             boolean $$4, boolean $$5, long $$6, int $$7) {
+    super($$0, $$1, $$2, $$3, $$4, $$5, $$6, $$7);
   }
 
   @Inject(
@@ -42,7 +39,7 @@ public abstract class MixinServerLevel extends Level {
   )
   private void polymorph$preTickBlock(BlockPos pos, Block block, CallbackInfo ci) {
 
-    if (this.getRecipeManager() instanceof IRecipeContext recipeContext) {
+    if (this.recipeAccess() instanceof IRecipeContext recipeContext) {
       BlockEntity blockEntity = this.getBlockEntity(pos);
 
       if (blockEntity != null) {
@@ -61,12 +58,12 @@ public abstract class MixinServerLevel extends Level {
   )
   private void polymorph$postTickBlock(BlockPos pos, Block block, CallbackInfo ci) {
 
-    if (this.getRecipeManager() instanceof IRecipeContext recipeContext) {
+    if (this.recipeAccess() instanceof IRecipeContext recipeContext) {
       recipeContext.polymorph$setContext(null);
     }
   }
 
   @Nonnull
   @Shadow
-  public abstract RecipeManager getRecipeManager();
+  public abstract RecipeManager recipeAccess();
 }

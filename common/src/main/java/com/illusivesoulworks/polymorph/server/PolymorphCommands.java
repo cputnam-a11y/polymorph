@@ -67,14 +67,24 @@ public class PolymorphCommands {
       source.sendSuccess(() -> Component.translatable("commands.polymorph.conflicts.starting"),
           true);
       ServerLevel world = source.getLevel();
-      RecipeManager recipeManager = world.getRecipeManager();
+      RecipeManager recipeManager = world.recipeAccess();
       List<String> output = new ArrayList<>();
       int count = 0;
-      count += scanRecipes(RecipeType.CRAFTING, output, recipeManager, CraftingRecipeWrapper::new);
-      count += scanRecipes(RecipeType.SMELTING, output, recipeManager, RecipeWrapper::new);
-      count += scanRecipes(RecipeType.BLASTING, output, recipeManager, RecipeWrapper::new);
-      count += scanRecipes(RecipeType.SMOKING, output, recipeManager, RecipeWrapper::new);
-      count += scanRecipes(RecipeType.SMITHING, output, recipeManager, SmithingRecipeWrapper::new);
+
+      int craftingConflicts = scanRecipes(RecipeType.CRAFTING, output, recipeManager, CraftingRecipeWrapper::new, source, "crafting");
+      count += craftingConflicts;
+
+      int smeltingConflicts = scanRecipes(RecipeType.SMELTING, output, recipeManager, RecipeWrapper::new, source, "smelting");
+      count += smeltingConflicts;
+
+      int blastingConflicts = scanRecipes(RecipeType.BLASTING, output, recipeManager, RecipeWrapper::new, source, "blasting");
+      count += blastingConflicts;
+
+      int smokingConflicts = scanRecipes(RecipeType.SMOKING, output, recipeManager, RecipeWrapper::new, source, "smoking");
+      count += smokingConflicts;
+
+      int smithingConflicts = scanRecipes(RecipeType.SMITHING, output, recipeManager, SmithingRecipeWrapper::new, source, "smithing");
+      count += smithingConflicts;
 
       if (count > 0) {
         try {
@@ -93,18 +103,39 @@ public class PolymorphCommands {
     return Command.SINGLE_SUCCESS;
   }
 
+  @SuppressWarnings("unchecked")
   private static <I extends RecipeInput, T extends Recipe<I>> int scanRecipes(RecipeType<T> pType,
                                                                               List<String> pOutput,
                                                                               RecipeManager pRecipeManager,
-                                                                              Function<RecipeHolder<?>, RecipeWrapper> pFactory) {
-    Collection<RecipeWrapper> recipes =
-        pRecipeManager.getAllRecipesFor(pType).stream().map(pFactory).toList();
+                                                                              Function<RecipeHolder<?>, RecipeWrapper> pFactory,
+                                                                              CommandSourceStack pSource,
+                                                                              String pLabel) {
+    List<RecipeWrapper> recipes =
+        pRecipeManager.getRecipes().stream()
+            .filter(holder -> holder.value().getType() == pType)
+            .map(h -> pFactory.apply((RecipeHolder<?>) h)).toList();
     List<Set<ResourceLocation>> conflicts = new ArrayList<>();
     Set<ResourceLocation> skipped = new TreeSet<>();
     Set<ResourceLocation> processed = new HashSet<>();
 
+    int totalRecipes = recipes.size();
+    pSource.sendSuccess(() -> Component.literal("Scanning " + totalRecipes + " " + pLabel + " recipes..."), true);
+
+    int checked = 0;
+    int lastReportedPercent = 0;
+
     for (RecipeWrapper recipe : recipes) {
       ResourceLocation id = recipe.getId();
+      checked++;
+
+      // Report progress every 10%
+      int currentPercent = (checked * 100) / totalRecipes;
+      if (currentPercent >= lastReportedPercent + 10) {
+        lastReportedPercent = (currentPercent / 10) * 10;
+        int finalChecked = checked;
+        int finalPercent = lastReportedPercent;
+        pSource.sendSuccess(() -> Component.literal("  Checked " + finalChecked + "/" + totalRecipes + " recipes (" + finalPercent + "%)"), true);
+      }
 
       if (processed.contains(id)) {
         continue;
@@ -158,6 +189,8 @@ public class PolymorphCommands {
       }
       pOutput.add("");
     }
-    return conflicts.size();
+    int conflictCount = conflicts.size();
+    pSource.sendSuccess(() -> Component.literal("Found " + conflictCount + " " + pLabel + " conflicts"), true);
+    return conflictCount;
   }
 }

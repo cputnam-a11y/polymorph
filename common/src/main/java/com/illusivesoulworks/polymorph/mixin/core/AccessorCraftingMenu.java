@@ -18,13 +18,14 @@
 package com.illusivesoulworks.polymorph.mixin.core;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractCraftingMenu;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(CraftingMenu.class)
+@Mixin(AbstractCraftingMenu.class)
 public interface AccessorCraftingMenu {
 
   @Accessor
@@ -33,6 +34,6 @@ public interface AccessorCraftingMenu {
   @Accessor
   ResultContainer getResultSlots();
 
-  @Accessor
-  Player getPlayer();
+  @Invoker("owner")
+  Player invokeOwner();
 }

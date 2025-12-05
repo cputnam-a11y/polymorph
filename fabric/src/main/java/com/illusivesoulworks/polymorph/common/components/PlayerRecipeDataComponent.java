@@ -19,9 +19,10 @@ package com.illusivesoulworks.polymorph.common.components;
 
 import com.illusivesoulworks.polymorph.common.capability.PlayerRecipeData;
 import javax.annotation.Nonnull;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.ladysnake.cca.api.v3.component.Component;
 
 public class PlayerRecipeDataComponent extends PlayerRecipeData implements Component {
@@ -31,12 +32,21 @@ public class PlayerRecipeDataComponent extends PlayerRecipeData implements Compo
   }
 
   @Override
-  public void readFromNbt(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
-    this.readNBT(provider, tag.getCompound("Data"));
+  public void readData(@Nonnull ValueInput input) {
+    input.child("Data").ifPresent(data ->
+        data.getString("SelectedRecipe").ifPresent(str -> {
+          var rl = ResourceLocation.tryParse(str);
+          if (rl != null) {
+            this.loadedRecipe = rl;
+          }
+        }));
   }
 
   @Override
-  public void writeToNbt(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
-    tag.put("Data", this.writeNBT(provider));
+  public void writeData(@Nonnull ValueOutput output) {
+    if (this.getSelectedRecipe() != null) {
+      ValueOutput data = output.child("Data");
+      data.putString("SelectedRecipe", this.getSelectedRecipe().id().location().toString());
+    }
   }
 }

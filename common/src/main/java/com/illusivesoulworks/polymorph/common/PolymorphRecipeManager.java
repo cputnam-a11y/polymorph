@@ -7,6 +7,7 @@ import com.illusivesoulworks.polymorph.api.common.capability.IRecipeData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.Recipe;
@@ -42,6 +43,9 @@ public class PolymorphRecipeManager implements IPolymorphRecipeManager {
     if (recipeData != null) {
       return Optional.ofNullable(recipeData.getRecipe(type, inventory, level, recipes));
     }
-    return level.getRecipeManager().getRecipesFor(type, inventory, level).stream().findFirst();
+    if (level instanceof ServerLevel serverLevel) {
+      return serverLevel.recipeAccess().getRecipeFor(type, inventory, level);
+    }
+    return Optional.empty();
   }
 }

@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Recipe;
@@ -45,21 +46,29 @@ public class RecipeCache {
   }
 
   private void validateRecipeManager(Level level) {
-    RecipeManager recipeManager = level.getRecipeManager();
+    RecipeManager recipeManager = level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess() : null;
 
-    if (recipeManager != this.cachedRecipeManager.get()) {
+    if (recipeManager != null && recipeManager != this.cachedRecipeManager.get()) {
       this.cachedRecipeManager = new WeakReference<>(recipeManager);
       Arrays.fill(this.entries, null);
     }
   }
 
+  @SuppressWarnings("unchecked")
   private <I extends RecipeInput, T extends Recipe<I>> List<RecipeHolder<T>> compute(Level level,
                                                                                      RecipeType<T> recipeType,
                                                                                      I recipeInput) {
-    List<RecipeHolder<T>> list =
-        level.getRecipeManager().getRecipesFor(recipeType, recipeInput, level);
-    this.insert(recipeInput, list);
-    return list;
+    if (level instanceof ServerLevel serverLevel) {
+      // Get all recipes of this type and filter for matching ones
+      List<RecipeHolder<T>> list = serverLevel.recipeAccess().getRecipes().stream()
+          .filter(holder -> holder.value().getType() == recipeType)
+          .map(holder -> (RecipeHolder<T>) holder)
+          .filter(holder -> holder.value().matches(recipeInput, level))
+          .toList();
+      this.insert(recipeInput, list);
+      return list;
+    }
+    return List.of();
   }
 
   private void moveEntryToFront(int index) {

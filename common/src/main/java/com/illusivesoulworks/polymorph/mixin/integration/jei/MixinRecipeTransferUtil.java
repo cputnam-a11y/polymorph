@@ -26,7 +26,7 @@ public class MixinRecipeTransferUtil {
                                                CallbackInfoReturnable<Boolean> cir) {
 
     if (recipeLayout.getRecipe() instanceof RecipeHolder<?> recipeHolder) {
-      RecipeTransfer.enqueueTransfer(recipeHolder.id());
+      RecipeTransfer.enqueueTransfer(recipeHolder.id().location());
     }
   }
 }

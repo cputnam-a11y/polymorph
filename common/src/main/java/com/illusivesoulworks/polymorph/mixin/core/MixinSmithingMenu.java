@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -44,14 +45,12 @@ public abstract class MixinSmithingMenu extends ItemCombinerMenu {
   private List<RecipeHolder<SmithingRecipe>> polymorph$matchingRecipes;
 
   @Shadow
-  private RecipeHolder<SmithingRecipe> selectedRecipe;
-
-  @Shadow
   protected abstract SmithingRecipeInput createRecipeInput();
 
   public MixinSmithingMenu(@Nullable MenuType<?> p_i231587_1_, int p_i231587_2_,
-                           Inventory p_i231587_3_, ContainerLevelAccess p_i231587_4_) {
-    super(p_i231587_1_, p_i231587_2_, p_i231587_3_, p_i231587_4_);
+                           Inventory p_i231587_3_, ContainerLevelAccess p_i231587_4_,
+                           ItemCombinerMenuSlotDefinition p_i231587_5_) {
+    super(p_i231587_1_, p_i231587_2_, p_i231587_3_, p_i231587_4_, p_i231587_5_);
   }
 
   @ModifyVariable(

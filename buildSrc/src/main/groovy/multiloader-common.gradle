@@ -103,8 +103,6 @@ processResources {
             "version"                    : version,
             "group"                      : project.group, //Else we target the task's group.
             "minecraft_version"          : minecraft_version,
-            "forge_version"              : forge_version,
-            "forge_version_range"        : forge_version_range,
             "minecraft_version_range"    : minecraft_version_range,
             "minecraft_version_range_alt": minecraft_version_range_alt,
             "fabric_version"             : fabric_version,
@@ -116,12 +114,10 @@ processResources {
             "issues_url"                 : issues_url,
             "sources_url"                : sources_url,
             "description"                : project.description,
-            "neoforge_version"           : neoforge_version,
-            "neoforge_version_range"     : neoforge_version_range,
             "java_version"               : java_version
     ]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)

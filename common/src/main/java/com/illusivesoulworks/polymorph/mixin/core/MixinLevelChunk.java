@@ -1,7 +1,9 @@
 package com.illusivesoulworks.polymorph.mixin.core;
 
 import com.illusivesoulworks.polymorph.api.common.base.IRecipeContext;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,8 +27,9 @@ public class MixinLevelChunk<T extends BlockEntity> {
       method = "tick"
   )
   private void polymorph$preTick(CallbackInfo ci) {
+    Level level = this.blockEntity.getLevel();
     RecipeManager recipeManager =
-        this.blockEntity.getLevel() != null ? this.blockEntity.getLevel().getRecipeManager() : null;
+        level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess() : null;
 
     if (recipeManager instanceof IRecipeContext recipeContext) {
       recipeContext.polymorph$setContext(this.blockEntity);
@@ -42,8 +45,9 @@ public class MixinLevelChunk<T extends BlockEntity> {
       method = "tick"
   )
   private void polymorph$postTick(CallbackInfo ci) {
+    Level level = this.blockEntity.getLevel();
     RecipeManager recipeManager =
-        this.blockEntity.getLevel() != null ? this.blockEntity.getLevel().getRecipeManager() : null;
+        level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess() : null;
 
     if (recipeManager instanceof IRecipeContext recipeContext) {
       recipeContext.polymorph$setContext(null);

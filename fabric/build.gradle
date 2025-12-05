@@ -2,7 +2,7 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id 'multiloader-loader'
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'fabric-loom' version '1.12-SNAPSHOT'
     id 'com.modrinth.minotaur' version '2.+'
     id 'net.darkhax.curseforgegradle' version '1.+'
 }
@@ -25,7 +25,7 @@ dependencies {
 
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     compileOnly "dev.emi:emi-xplat-mojmap:${emi_version}"
-    compileOnly "mezz.jei:jei-1.21-common:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.10-common:${jei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
     modCompileOnly "curse.maven:quickbench-914551:5075002"

@@ -28,7 +28,8 @@ public class ClientEventsListener {
     ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
       PolymorphClientEvents.initScreen(screen);
       ScreenEvents.afterRender(screen).register(PolymorphClientEvents::render);
-      ScreenMouseEvents.beforeMouseClick(screen).register(PolymorphClientEvents::mouseClick);
+      ScreenMouseEvents.beforeMouseClick(screen).register(
+          (s, event) -> PolymorphClientEvents.mouseClick(s, event.x(), event.y(), event.button()));
     });
   }
 }

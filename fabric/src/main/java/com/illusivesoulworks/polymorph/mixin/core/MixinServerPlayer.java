@@ -20,7 +20,6 @@ package com.illusivesoulworks.polymorph.mixin.core;
 import com.illusivesoulworks.polymorph.common.PolymorphCommonEvents;
 import com.mojang.authlib.GameProfile;
 import java.util.OptionalInt;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -32,8 +31,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayer.class)
 public abstract class MixinServerPlayer extends Player {
 
-  public MixinServerPlayer(Level level, BlockPos blockPos, float f, GameProfile gameProfile) {
-    super(level, blockPos, f, gameProfile);
+  public MixinServerPlayer(Level level, GameProfile gameProfile) {
+    super(level, gameProfile);
   }
 
   @Inject(

@@ -19,7 +19,6 @@ package com.illusivesoulworks.polymorph.common.integration;
 
 import com.google.common.collect.ImmutableSet;
 import com.illusivesoulworks.polymorph.platform.Services;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -120,28 +119,17 @@ public class PolymorphIntegrations {
   }
 
   public enum Mod {
-    REI("roughlyenoughitems", true, Loader.FABRIC, Loader.NEOFORGE),
-    JEI("jei", true, Loader.FABRIC, Loader.FORGE, Loader.NEOFORGE),
-    EMI("emi", true, Loader.FABRIC, Loader.NEOFORGE),
-    QUICKBENCH("quickbench", true, Loader.FABRIC),
-    FASTFURNACE("fastfurnace", true, Loader.NEOFORGE),
-    FASTWORKBENCH("fastbench", true, Loader.NEOFORGE),
-    FASTSUITE("fastsuite", true, Loader.NEOFORGE);
+    REI("roughlyenoughitems", true),
+    JEI("jei", true),
+    EMI("emi", true),
+    QUICKBENCH("quickbench", true);
 
     private final String id;
     private final boolean defaultValue;
-    private final Loader[] loaders;
 
-    Mod(String id, Loader defaultLoader, Loader... extraLoaders) {
-      this(id, false, defaultLoader, extraLoaders);
-    }
-
-    Mod(String id, boolean defaultValue, Loader defaultLoader, Loader... extraLoaders) {
+    Mod(String id, boolean defaultValue) {
       this.id = id;
       this.defaultValue = defaultValue;
-      this.loaders = new Loader[extraLoaders.length + 1];
-      this.loaders[0] = defaultLoader;
-      System.arraycopy(extraLoaders, 0, this.loaders, 1, this.loaders.length - 1);
     }
 
     public boolean getDefaultValue() {
@@ -151,17 +139,5 @@ public class PolymorphIntegrations {
     public String getId() {
       return this.id;
     }
-
-    public static Mod[] values(Loader loader) {
-      return Arrays.stream(Mod.values())
-          .filter(mod -> Arrays.stream(mod.loaders).anyMatch(test -> test == loader))
-          .toArray(Mod[]::new);
-    }
-  }
-
-  public enum Loader {
-    FABRIC,
-    FORGE,
-    NEOFORGE
   }
 }

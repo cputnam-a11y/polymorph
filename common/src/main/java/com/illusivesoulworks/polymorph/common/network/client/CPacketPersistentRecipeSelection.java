@@ -22,14 +22,17 @@ import com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeD
 import com.illusivesoulworks.polymorph.common.integration.PolymorphIntegrations;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 
 public record CPacketPersistentRecipeSelection(ResourceLocation recipe) implements
     CustomPacketPayload {
@@ -44,9 +47,10 @@ public record CPacketPersistentRecipeSelection(ResourceLocation recipe) implemen
           CPacketPersistentRecipeSelection::new);
 
   public static void handle(CPacketPersistentRecipeSelection packet, ServerPlayer player) {
-    Level world = player.getCommandSenderWorld();
+    ServerLevel serverLevel = (ServerLevel) player.level();
+    ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, packet.recipe);
     Optional<RecipeHolder<?>> maybeRecipe =
-        world.getRecipeManager().byKey(packet.recipe);
+        serverLevel.recipeAccess().byKey(recipeKey);
     maybeRecipe.ifPresent(recipe -> {
       AbstractContainerMenu container = player.containerMenu;
       IBlockEntityRecipeData recipeData =

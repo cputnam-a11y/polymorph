@@ -97,7 +97,7 @@ public class PlayerRecipeData extends AbstractRecipeData<Player> implements
 
     if (this.getOwner() instanceof ServerPlayer) {
       ResourceLocation resourceLocation =
-          this.getSelectedRecipe() != null ? this.getSelectedRecipe().id() : null;
+          this.getSelectedRecipe() != null ? this.getSelectedRecipe().id().location() : null;
       PolymorphApi.getInstance().getNetwork()
           .sendPlayerSyncS2C((ServerPlayer) this.getOwner(), this.getRecipesList(),
               resourceLocation);
@@ -109,7 +109,7 @@ public class PlayerRecipeData extends AbstractRecipeData<Player> implements
 
     if (this.getContainerMenu() == this.getOwner().containerMenu) {
       ResourceLocation resourceLocation =
-          this.getSelectedRecipe() != null ? this.getSelectedRecipe().id() : null;
+          this.getSelectedRecipe() != null ? this.getSelectedRecipe().id().location() : null;
       Pair<SortedSet<IRecipePair>, ResourceLocation> packetData =
           new Pair<>(this.getRecipesList(), resourceLocation);
       Player player = this.getOwner();

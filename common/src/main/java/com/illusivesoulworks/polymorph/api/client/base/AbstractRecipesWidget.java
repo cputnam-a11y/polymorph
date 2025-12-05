@@ -127,16 +127,14 @@ public abstract class AbstractRecipesWidget implements IRecipesWidget {
   @Override
   public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-    if (this.openButton.mouseClicked(mouseX, mouseY, button)) {
+    if (this.openButton.isHovered()) {
+      this.selectionWidget.setActive(!this.selectionWidget.isActive());
       return true;
-    } else if (this.selectionWidget.mouseClicked(mouseX, mouseY, button)) {
+    } else if (this.selectionWidget.handleClick(mouseX, mouseY, button)) {
       this.selectionWidget.setActive(false);
       return true;
     } else if (this.selectionWidget.isActive()) {
-
-      if (!this.openButton.mouseClicked(mouseX, mouseY, button)) {
-        this.selectionWidget.setActive(false);
-      }
+      this.selectionWidget.setActive(false);
       return true;
     }
     return false;

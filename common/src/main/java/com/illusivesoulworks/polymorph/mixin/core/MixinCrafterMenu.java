@@ -1,8 +1,10 @@
 package com.illusivesoulworks.polymorph.mixin.core;
 
 import com.illusivesoulworks.polymorph.api.common.base.IRecipeContext;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.CrafterMenu;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Final;
@@ -27,8 +29,9 @@ public class MixinCrafterMenu {
 
     if (this.container instanceof BlockEntity blockEntity) {
       Level level = blockEntity.getLevel();
+      RecipeManager recipeManager = level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess() : null;
 
-      if (level != null && level.getRecipeManager() instanceof IRecipeContext recipeContext) {
+      if (recipeManager instanceof IRecipeContext recipeContext) {
         recipeContext.polymorph$setContext(blockEntity);
       }
     }
@@ -42,8 +45,9 @@ public class MixinCrafterMenu {
 
     if (this.container instanceof BlockEntity blockEntity) {
       Level level = blockEntity.getLevel();
+      RecipeManager recipeManager = level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess() : null;
 
-      if (level != null && level.getRecipeManager() instanceof IRecipeContext recipeContext) {
+      if (recipeManager instanceof IRecipeContext recipeContext) {
         recipeContext.polymorph$setContext(null);
       }
     }

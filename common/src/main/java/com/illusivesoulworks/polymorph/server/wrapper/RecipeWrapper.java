@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 public class RecipeWrapper {
 
@@ -16,9 +17,13 @@ public class RecipeWrapper {
     this.recipe = pRecipe;
     this.ingredients = new ArrayList<>();
 
-    for (Ingredient ingredient : this.recipe.value().getIngredients()) {
-      IngredientWrapper wrapped = new IngredientWrapper(ingredient);
-      this.ingredients.add(wrapped);
+    // Use placementInfo to get ingredients if available
+    var placementInfo = this.recipe.value().placementInfo();
+    if (placementInfo != null) {
+      for (Ingredient ingredient : placementInfo.ingredients()) {
+        IngredientWrapper wrapped = new IngredientWrapper(ingredient);
+        this.ingredients.add(wrapped);
+      }
     }
   }
 
@@ -27,7 +32,7 @@ public class RecipeWrapper {
   }
 
   public ResourceLocation getId() {
-    return this.recipe.id();
+    return this.recipe.id().location();
   }
 
   public List<IngredientWrapper> getIngredients() {

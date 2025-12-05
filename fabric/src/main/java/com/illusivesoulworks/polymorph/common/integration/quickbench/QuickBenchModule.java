@@ -2,10 +2,8 @@ package com.illusivesoulworks.polymorph.common.integration.quickbench;
 
 import com.illusivesoulworks.polymorph.common.integration.AbstractCompatibilityModule;
 import com.illusivesoulworks.polymorph.mixin.core.AccessorCraftingMenu;
-import com.illusivesoulworks.polymorph.mixin.core.AccessorInventoryMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingMenu;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.AbstractCraftingMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -18,11 +16,8 @@ public class QuickBenchModule extends AbstractCompatibilityModule {
     if (recipe.value() instanceof CraftingRecipe) {
       ResultContainer result = null;
 
-      if (containerMenu instanceof CraftingMenu) {
+      if (containerMenu instanceof AbstractCraftingMenu) {
         AccessorCraftingMenu accessor = (AccessorCraftingMenu) containerMenu;
-        result = accessor.getResultSlots();
-      } else if (containerMenu instanceof InventoryMenu) {
-        AccessorInventoryMenu accessor = (AccessorInventoryMenu) containerMenu;
         result = accessor.getResultSlots();
       }
 

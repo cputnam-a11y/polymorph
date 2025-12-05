@@ -19,7 +19,6 @@ package com.illusivesoulworks.polymorph.api.client.widgets.children;
 
 import com.illusivesoulworks.polymorph.api.common.base.IRecipePair;
 import com.illusivesoulworks.polymorph.platform.Services;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,11 +117,8 @@ public class SelectionWidget implements Renderable, GuiEventListener {
     Minecraft mc = Minecraft.getInstance();
 
     if (mc.screen != null && this.hoveredButton != null) {
-      PoseStack poseStack = guiGraphics.pose();
-      poseStack.pushPose();
-      poseStack.translate(0, 0, 501);
-      guiGraphics.renderTooltip(mc.font, this.hoveredButton.getOutput(), mouseX, mouseY);
-      poseStack.popPose();
+      // Set tooltip for next frame using new 1.21.10 API
+      guiGraphics.setTooltipForNextFrame(mc.font, this.hoveredButton.getOutput(), mouseX, mouseY);
     }
   }
 
@@ -150,14 +146,13 @@ public class SelectionWidget implements Renderable, GuiEventListener {
     }
   }
 
-  @Override
-  public boolean mouseClicked(double mouseX, double mouseY, int button) {
+  public boolean handleClick(double mouseX, double mouseY, int button) {
 
     if (this.isActive()) {
 
       for (OutputWidget widget : this.outputWidgets) {
 
-        if (widget.mouseClicked(mouseX, mouseY, button)) {
+        if (widget.isHovered()) {
           onSelect.accept(widget.getResourceLocation());
           return true;
         }

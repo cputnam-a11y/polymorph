@@ -35,8 +35,11 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -55,7 +58,7 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
   private final Map<UUID, ServerPlayer> listeners;
 
   private RecipeHolder<?> selectedRecipe;
-  private ResourceLocation loadedRecipe;
+  protected ResourceLocation loadedRecipe;
 
   public AbstractRecipeData(E owner) {
     this.recipesList = new TreeSet<>();
@@ -77,7 +80,10 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
     RegistryAccess registryAccess = level.registryAccess();
 
     if (this.loadedRecipe != null && this.getSelectedRecipe() == null) {
-      level.getRecipeManager().byKey(this.loadedRecipe).ifPresent(this::setSelectedRecipe);
+      if (level instanceof ServerLevel serverLevel) {
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.loadedRecipe);
+        serverLevel.recipeAccess().byKey(recipeKey).ifPresent(this::setSelectedRecipe);
+      }
     }
     this.loadedRecipe = null;
     RecipeHolder<T> firstResult = null;
@@ -86,8 +92,18 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
 
     for (RecipeHolder<T> entry : recipes) {
       T recipe = entry.value();
-      ResourceLocation id = entry.id();
-      ItemStack output = recipe.getResultItem(registryAccess);
+      ResourceLocation id = entry.id().location();
+      // Get the output from the recipe result display
+      ItemStack output = ItemStack.EMPTY;
+      var display = entry.value().display();
+      if (!display.isEmpty()) {
+        var resultDisplay = display.getFirst().result();
+        if (resultDisplay instanceof net.minecraft.world.item.crafting.display.SlotDisplay.ItemSlotDisplay itemDisplay) {
+          output = new ItemStack(itemDisplay.item().value());
+        } else if (resultDisplay instanceof net.minecraft.world.item.crafting.display.SlotDisplay.ItemStackSlotDisplay stackDisplay) {
+          output = stackDisplay.stack();
+        }
+      }
 
       // noinspection ConstantConditions
       if (output == null || output.isEmpty() || entry.value() instanceof CustomRecipe) {
@@ -104,7 +120,7 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
       boolean flag = false;
 
       if (selected == null && this.getSelectedRecipe() != null &&
-          this.getSelectedRecipe().id().equals(id)) {
+          this.getSelectedRecipe().id().location().equals(id)) {
         selected = entry;
         flag = true;
       }
@@ -182,7 +198,7 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
   @Override
   public void sendRecipesListToListeners() {
     ResourceLocation resourceLocation =
-        this.getSelectedRecipe() != null ? this.getSelectedRecipe().id() : null;
+        this.getSelectedRecipe() != null ? this.getSelectedRecipe().id().location() : null;
     Pair<SortedSet<IRecipePair>, ResourceLocation> packetData =
         new Pair<>(this.getRecipesList(), resourceLocation);
 
@@ -196,7 +212,8 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
   public void readNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
 
     if (compoundTag.contains("SelectedRecipe")) {
-      this.loadedRecipe = ResourceLocation.tryParse(compoundTag.getString("SelectedRecipe"));
+      compoundTag.getString("SelectedRecipe").ifPresent(str ->
+          this.loadedRecipe = ResourceLocation.tryParse(str));
     }
   }
 
@@ -206,7 +223,7 @@ public abstract class AbstractRecipeData<E> implements IRecipeData<E> {
     CompoundTag nbt = new CompoundTag();
 
     if (this.selectedRecipe != null) {
-      nbt.putString("SelectedRecipe", this.selectedRecipe.id().toString());
+      nbt.putString("SelectedRecipe", this.selectedRecipe.id().location().toString());
     }
     return nbt;
   }
