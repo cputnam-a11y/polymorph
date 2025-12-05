@@ -22,3 +22,7 @@ build
 eclipse
 run
 runs
+
+.tool-versions
+build-and-run.sh
+launch-mc.py
