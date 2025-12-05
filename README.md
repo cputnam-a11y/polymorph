@@ -1,4 +1,4 @@
-# polymorph but it's for fabric only but also for minecraft 1.21.10
+# polymorph but it's for fabric only but also for 1.21.10
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg?&style=flat-square)](https://www.gnu.org/licenses/lgpl-3.0)
 
