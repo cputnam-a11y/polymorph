@@ -1,5 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "Çelişen tarifler aranıyor...",
-  "commands.polymorph.conflicts.success": "%d potansiyel çelişki bulundu. Daha fazla detay için logs/conflicts.log dosyasına göz atın.",
+  "commands.polymorph.conflicts.scanning": "%1$d %2$s tarifi taranıyor...",
+  "commands.polymorph.conflicts.progress": "  %1$d/%2$d tarif kontrol edildi (%3$d%%)",
+  "commands.polymorph.conflicts.found": "%1$d %2$s çelişkisi bulundu",
+  "commands.polymorph.conflicts.success": "%d potansiyel çelişki bulundu. Daha fazla detay için logs/polymorph-conflicts.log dosyasına göz atın.",
   "polymorph.networking.failed": "Polymorph Ağ Hatası: %s"
 }

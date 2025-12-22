@@ -1,4 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "Пошук конфліктів рецептів...",
-  "commands.polymorph.conflicts.success": "Знайдено %d потенційних конфліктів. Перевірте logs/conflicts.log для отримання додаткової інформації."
+  "commands.polymorph.conflicts.scanning": "Сканування %1$d рецептів %2$s...",
+  "commands.polymorph.conflicts.progress": "  Перевірено %1$d/%2$d рецептів (%3$d%%)",
+  "commands.polymorph.conflicts.found": "Знайдено %1$d конфліктів %2$s",
+  "commands.polymorph.conflicts.success": "Знайдено %d потенційних конфліктів. Перевірте logs/polymorph-conflicts.log для отримання додаткової інформації.",
+  "polymorph.networking.failed": "Помилка мережі Polymorph: %s"
 }

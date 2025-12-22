@@ -1,5 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "正在搜尋配方衝突...",
-  "commands.polymorph.conflicts.success": "找到 %d 個潛在衝突。查看 logs/conflicts.log 了解更多細節。",
+  "commands.polymorph.conflicts.scanning": "正在掃描 %1$d 個 %2$s 配方...",
+  "commands.polymorph.conflicts.progress": "  已檢查 %1$d/%2$d 個配方 (%3$d%%)",
+  "commands.polymorph.conflicts.found": "發現 %1$d 個 %2$s 衝突",
+  "commands.polymorph.conflicts.success": "找到 %d 個潛在衝突。查看 logs/polymorph-conflicts.log 了解更多細節。",
   "polymorph.networking.failed": "Polymorph 網路連線失敗：%s"
 }

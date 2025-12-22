@@ -1,4 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "Tražim sukobe među receptima...",
-  "commands.polymorph.conflicts.success": "Pronađeno %d potencijalnih sukoba. Provjeri logs/conflicts.log za više detalja."
+  "commands.polymorph.conflicts.scanning": "Pretražujem %1$d %2$s recepata...",
+  "commands.polymorph.conflicts.progress": "  Provjereno %1$d/%2$d recepata (%3$d%%)",
+  "commands.polymorph.conflicts.found": "Pronađeno %1$d %2$s sukoba",
+  "commands.polymorph.conflicts.success": "Pronađeno %d potencijalnih sukoba. Provjeri logs/polymorph-conflicts.log za više detalja.",
+  "polymorph.networking.failed": "Polymorph mrežna greška: %s"
 }

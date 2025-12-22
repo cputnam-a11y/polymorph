@@ -1,5 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "Suche nach Rezeptkonflikten...",
-  "commands.polymorph.conflicts.success": "%d potenzielle Konflikte gefunden. Sieh in logs/conflicts.log für weitere Details nach.",
+  "commands.polymorph.conflicts.scanning": "Durchsuche %1$d %2$s-Rezepte...",
+  "commands.polymorph.conflicts.progress": "  %1$d/%2$d Rezepte überprüft (%3$d%%)",
+  "commands.polymorph.conflicts.found": "%1$d %2$s-Konflikte gefunden",
+  "commands.polymorph.conflicts.success": "%d potenzielle Konflikte gefunden. Sieh in logs/polymorph-conflicts.log für weitere Details nach.",
   "polymorph.networking.failed": "Polymorph-Netzwerkfehler: %s"
 }

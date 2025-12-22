@@ -1,4 +1,8 @@
 {
   "commands.polymorph.conflicts.starting": "Recherche des conflits de recette...",
-  "commands.polymorph.conflicts.success": "%d conflits potentiels trouvés. Regardez logs/conflicts.log pour plus de détails."
+  "commands.polymorph.conflicts.scanning": "Analyse de %1$d recettes de %2$s...",
+  "commands.polymorph.conflicts.progress": "  %1$d/%2$d recettes vérifiées (%3$d%%)",
+  "commands.polymorph.conflicts.found": "%1$d conflits de %2$s trouvés",
+  "commands.polymorph.conflicts.success": "%d conflits potentiels trouvés. Regardez logs/polymorph-conflicts.log pour plus de détails.",
+  "polymorph.networking.failed": "Erreur réseau Polymorph : %s"
 }

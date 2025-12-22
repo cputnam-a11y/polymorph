@@ -119,7 +119,7 @@ public class PolymorphCommands {
     Set<ResourceLocation> processed = new HashSet<>();
 
     int totalRecipes = recipes.size();
-    pSource.sendSuccess(() -> Component.literal("Scanning " + totalRecipes + " " + pLabel + " recipes..."), true);
+    pSource.sendSuccess(() -> Component.translatable("commands.polymorph.conflicts.scanning", totalRecipes, pLabel), true);
 
     int checked = 0;
     int lastReportedPercent = 0;
@@ -134,7 +134,7 @@ public class PolymorphCommands {
         lastReportedPercent = (currentPercent / 10) * 10;
         int finalChecked = checked;
         int finalPercent = lastReportedPercent;
-        pSource.sendSuccess(() -> Component.literal("  Checked " + finalChecked + "/" + totalRecipes + " recipes (" + finalPercent + "%)"), true);
+        pSource.sendSuccess(() -> Component.translatable("commands.polymorph.conflicts.progress", finalChecked, totalRecipes, finalPercent), true);
       }
 
       if (processed.contains(id)) {
@@ -190,7 +190,7 @@ public class PolymorphCommands {
       pOutput.add("");
     }
     int conflictCount = conflicts.size();
-    pSource.sendSuccess(() -> Component.literal("Found " + conflictCount + " " + pLabel + " conflicts"), true);
+    pSource.sendSuccess(() -> Component.translatable("commands.polymorph.conflicts.found", conflictCount, pLabel), true);
     return conflictCount;
   }
 }

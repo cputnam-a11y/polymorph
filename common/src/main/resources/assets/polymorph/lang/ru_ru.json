@@ -1,5 +1,8 @@
 {
-   "commands.polymorph.conflicts.starting": "Поиск конфликтов в рецептах…",
-   "commands.polymorph.conflicts.success": "Найдено %d потенциальных конфликтов. Проверьте logs/conflicts.log для более подробной информации.",
-   "polymorph.networking.failed": "Ошибка сети Polymorph: %s"
+  "commands.polymorph.conflicts.starting": "Поиск конфликтов в рецептах…",
+  "commands.polymorph.conflicts.scanning": "Сканирование %1$d рецептов %2$s...",
+  "commands.polymorph.conflicts.progress": "  Проверено %1$d/%2$d рецептов (%3$d%%)",
+  "commands.polymorph.conflicts.found": "Найдено %1$d конфликтов %2$s",
+  "commands.polymorph.conflicts.success": "Найдено %d потенциальных конфликтов. Проверьте logs/polymorph-conflicts.log для более подробной информации.",
+  "polymorph.networking.failed": "Ошибка сети Polymorph: %s"
 }
