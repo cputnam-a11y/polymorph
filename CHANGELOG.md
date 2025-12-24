@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 Prior to version 0.45.0, this project used MCVERSION-MAJORMOD.MAJORAPI.MINOR.PATCH.
 
+## [1.2.1+1.21.10] - 2024.12.24
+### Fixed
+- Fixed conflict command log filename in translations (conflicts.log → polymorph-conflicts.log)
+- Added missing translation keys for conflict command progress messages
+- Use translatable components instead of hardcoded strings in conflict command
+- Added missing `polymorph.networking.failed` key to language files that lacked it
+
+## [1.2.0+1.21.10] - 2024.12.24
+### Changed
+- Updated to Minecraft 1.21.10
+- Removed NeoForge/Forge support (Fabric only)
+- Fixed smithing recipe handling for new recipe structure
+- Various API compatibility fixes
+
 ## [1.1.0+1.21.1] - 2025.07.21
 ### Changed
 - Retooled block entity registration for recipe data to accommodate for Fabric components
